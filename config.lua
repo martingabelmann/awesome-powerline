@@ -29,6 +29,9 @@ end
 -- Default modkey.
 modkey = "Mod4"
 
+-- Hide menu launcher (mod+w still shows the menu)
+show_mylauncher = false
+
 -- }}}
 
 -- {{{ Layouts
