@@ -56,8 +56,12 @@ end
 beautiful.init(theme_dir .. "/theme.lua")
 -- }}}
 
---- {{{ User vars and configs
+-- {{{ User vars and configs
 require('config')
+
+package.path = package.path .. ';' .. powerline_repository .. '/bindings/awesome/?.lua'
+require('powerline')
+-- }}}
 
 -- {{{ Helper functions
 local function client_menu_toggle_fn()
@@ -178,8 +182,8 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
+            powerline_widget,
             wibox.widget.systray(),
-            widgets.clock,
             s.mylayoutbox,
         },
     }
