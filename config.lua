@@ -19,7 +19,8 @@ theme.font          = "Terminess powerline 8"
 theme.border_width  = 0
 theme.useless_gap   = 0
 theme.tasklist_disable_icon = true
-
+theme.tasklist_plain_task_name = true
+theme.wibar_height = 13
 
 --default applications for the menu
 terminal    = "xfce4-terminal"
