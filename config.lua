@@ -21,6 +21,9 @@ theme.useless_gap   = 0
 theme.tasklist_disable_icon = true
 theme.tasklist_plain_task_name = true
 theme.wibar_height = 15
+theme.taglist_fg_focus = '#197600'
+theme.taglist_bg_focus = '#ABF400'
+theme.taglist_bg_normal = '#2C2C2C'
 
 --default applications for the menu
 terminal    = "xfce4-terminal"
