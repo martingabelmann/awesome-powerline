@@ -15,12 +15,12 @@ powerline_repository = awesome_home .. '/powerline/powerline/'
 
 -- override vars from selected theme
 theme=beautiful.get()
-theme.font          = "Terminess powerline 8"
+theme.font          = "monofur for powerline 9"
 theme.border_width  = 0
 theme.useless_gap   = 0
 theme.tasklist_disable_icon = true
 theme.tasklist_plain_task_name = true
-theme.wibar_height = 13
+theme.wibar_height = 15
 
 --default applications for the menu
 terminal    = "xfce4-terminal"
