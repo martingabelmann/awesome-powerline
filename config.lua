@@ -3,6 +3,17 @@ local beautiful = require("beautiful")
 local menubar = require("menubar")
 -- {{{ Variable definitions
 
+-- path to awesome config dir
+awesome_home = awful.util.getdir("config")
+
+-- override vars from selected theme
+theme=beautiful.get()
+theme.font          = "Terminess powerline 8"
+theme.border_width  = 0
+theme.useless_gap   = 0
+theme.tasklist_disable_icon = true
+
+
 --default applications for the menu
 terminal    = "xfce4-terminal"
 editor      = os.getenv("EDITOR") or "vim"
