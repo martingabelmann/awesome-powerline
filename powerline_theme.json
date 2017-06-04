@@ -1,0 +1,75 @@
+{
+    "dividers": {
+         "left": {
+             "hard": " ",
+             "soft": " "
+         },
+         "right": {
+             "hard": " ",
+             "soft": " "
+         }
+    },
+    "spaces": 1,
+	"segments": {
+		"right": [
+            {
+            "function":"powerline.segments.common.bat.battery",
+             "args": {
+                 "full_heart": "♥",
+                 "empty_heart": "♥",
+                 "online": "⚡︎",
+                 "offline": " "
+                }
+            },
+            {
+            "function":"powerline.segments.common.net.network_load",
+            "args": {
+                   "recv_format": "⬇ {value:>8}",
+                   "sent_format": "⬆ {value:>8}"
+                }
+            },
+			{
+				"function": "powerline.segments.common.wthr.weather",
+				"priority": 50,
+                "args": {
+                    "location_query": "karlsruhe, germany",
+                    "unit": "C",
+                    "icons": {
+                        "day":           "〇",
+                        "blustery":      "⚑",
+                        "rainy":         "☔",
+                        "cloudy":        "☁",
+                        "snowy":         "❅",
+                        "stormy":        "☈",
+                        "foggy":         "≡",
+                        "sunny":         "☼",
+                        "night":         "☾",
+                        "windy":         "☴",
+                        "not_available": "�",
+                        "unknown":       "⚠"
+                        }
+                }
+			},
+			{
+				"function": "powerline.segments.common.time.date"
+			},
+			{
+				"function": "powerline.segments.common.time.date",
+				"name": "time",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				},
+                "before": "⌚ "
+			},
+			{
+				"function": "powerline.segments.common.mail.email_imap_alert",
+				"priority": 10,
+				"args": {
+					"username": "",
+					"password": ""
+				}
+			}
+		]
+	}
+}
