@@ -38,9 +38,23 @@ do
 end
 -- }}}
 
--- {{{ Variable definitions
--- Themes define colours, icons, font and wallpapers.
-beautiful.init(awful.util.get_themes_dir() .. "default/theme.lua")
+-- {{{ Load theme
+-- check if the theme defined in the themeswitch file exists and load it
+if awful.util.file_readable(awful.util.getdir('config') .. "/themeswitch") then
+    theme_name = io.open(awful.util.getdir('config') .. "/themeswitch", "r"):read "line"
+else 
+    theme_name = "default"
+end
+
+theme_dir = awesome.themes_path .. '/' .. theme_name
+
+if not awful.util.file_readable(theme_dir .. "/theme.lua") then
+    naughty.notify({preset = naughty.config.presets.critical, text = "theme " .. theme_name .. " not found. Falling back..." })
+    theme_name = "default"
+    theme_dir = awful.util.get_themes_dir() .. theme_name
+end
+beautiful.init(theme_dir .. "/theme.lua")
+-- }}}
 
 --- {{{ User vars and configs
 require('config')
@@ -60,27 +74,7 @@ local function client_menu_toggle_fn()
 end
 -- }}}
 
--- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-   { "hotkeys", function() return false, hotkeys_popup.show_help end},
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end}
-}
-
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
+require('menu')
 
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
