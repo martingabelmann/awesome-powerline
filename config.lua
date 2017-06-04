@@ -1,6 +1,10 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local wibox = require("wibox")
 local menubar = require("menubar")
+local gears = require("gears")
+local lain = require("lain")
+
 -- {{{ Variable definitions
 
 -- path to awesome config dir
@@ -56,4 +60,18 @@ custom_rules = {
     { rule = { class = "qutebrowser" }, properties = { screen = 1, tag = "1" } },
     { rule = { class = "Thunderbird" }, properties = { screen = 1, tag = "2" } },
 }
+-- }}}
+
+
+-- {{ Widgets
+widgets = {}
+widgets.clock = wibox.widget.textclock()
+widgets.cal = lain.widget.calendar()
+-- }}
+
+-- {{{ Custom key bindings
+custom_keys = gears.table.join(
+    awful.key({ modkey }, "c", function () lain.widget.calendar.show(7) end, 
+        {description = "show calendar", group = "widgets"})
+)
 -- }}}

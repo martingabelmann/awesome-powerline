@@ -80,8 +80,6 @@ require('menu')
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -181,7 +179,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
-            mytextclock,
+            widgets.clock,
             s.mylayoutbox,
         },
     }
@@ -296,6 +294,10 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"})
 )
+
+-- add custom keys form config
+--gears.table.merge(global_keys, custom_keys)
+gears.table.merge(globalkeys, custom_keys)
 
 clientkeys = gears.table.join(
     awful.key({ modkey,           }, "f",
