@@ -22,15 +22,6 @@ function write_theme(theme_dir)
     awful.util.eval(awesome.restart)
 end
 
--- search for all themes in awesome_home/themes
-themeswitch = {}
-for theme_dir in io.popen('ls -1 ' .. awesome.themes_path):lines() do --using popen here is fine since it is only called at startup
-    if awful.util.file_readable(awesome.themes_path .. '/' .. theme_dir .. "/theme.lua") then
-	    table.insert(themeswitch, { theme_dir,  function() write_theme(theme_dir) end })
-    end
-end
-
-
 myawesomemenu = { 
     { "logout", function() askfor("Do you really want to logout?",  awesome.quit) end},
     
@@ -55,8 +46,7 @@ myawesomemenu = {
         end 
     },
     
-    { "lock screen", terminal .. " -x slock" },       
-    { "theme switch", themeswitch },
+    { "lock screen", terminal .. " -x slock" }
 }
 
 mymainmenu = freedesktop.menu.build({

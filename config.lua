@@ -1,5 +1,4 @@
 local awful = require("awful")
-local beautiful = require("beautiful")
 local wibox = require("wibox")
 local menubar = require("menubar")
 local gears = require("gears")
@@ -12,18 +11,6 @@ awesome_home = awful.util.getdir("config")
 
 -- path to powerline installation
 powerline_repository = awesome_home .. '/powerline/powerline/'
-
--- override vars from selected theme
-theme=beautiful.get()
-theme.font          = "monofur for powerline 9"
-theme.border_width  = 0
-theme.useless_gap   = 0
-theme.tasklist_disable_icon = true
-theme.tasklist_plain_task_name = true
-theme.wibar_height = 15
-theme.taglist_fg_focus = '#197600'
-theme.taglist_bg_focus = '#ABF400'
-theme.taglist_bg_normal = '#2C2C2C'
 
 --default applications for the menu
 terminal    = "xfce4-terminal"

@@ -39,27 +39,12 @@ do
 end
 -- }}}
 
--- {{{ Load theme
--- check if the theme defined in the themeswitch file exists and load it
-if awful.util.file_readable(awful.util.getdir('config') .. "/themeswitch") then
-    theme_name = io.open(awful.util.getdir('config') .. "/themeswitch", "r"):read "line"
-else 
-    theme_name = "default"
-end
-
-theme_dir = awesome.themes_path .. '/' .. theme_name
-
-if not awful.util.file_readable(theme_dir .. "/theme.lua") then
-    naughty.notify({preset = naughty.config.presets.critical, text = "theme " .. theme_name .. " not found. Falling back..." })
-    theme_name = "default"
-    theme_dir = awful.util.get_themes_dir() .. theme_name
-end
-beautiful.init(theme_dir .. "/theme.lua")
--- }}}
+-- load theme
+beautiful.init('/home/martin/.config/awesome/themes/powerline/theme.lua')
+theme=beautiful.get()
 
 -- {{{ User vars and configs
 require('config')
-
 package.path = package.path .. ';' .. powerline_repository .. '/bindings/awesome/?.lua'
 require('powerline')
 -- }}}
@@ -199,8 +184,7 @@ awful.screen.connect_for_each_screen(function(s)
     {shape_focus = tagshape, spacing = 0}, tagupdate)
 
     -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons,
-    { bg_focus = theme.bg_focus, shape =gears.shape.powerline, shape_border_width = 0, align = "center" }, taskupdate)
+    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons, nil, taskupdate)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s, height = theme.wibar_height })
