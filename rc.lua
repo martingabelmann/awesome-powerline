@@ -163,8 +163,20 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
 
+    -- arrow shape for tags
     tagshape = function(cr)
         gears.shape.transform(gears.shape.rectangular_tag) : rotate_at(7, 7.5, math.pi)(cr,14,15)
+    end
+
+    -- set margin on tasklist arrows
+    local common = require("awful.widget.common")
+    function taskupdate(w, buttons, label, data, objects)
+        common.list_update(w, buttons, label, data, objects)
+        for k,child in ipairs(w:get_all_children()) do
+            if gears.table.hasitem(gears.table.keys(child), 'set_right') then
+                child:set_right(10)
+            end
+        end
     end
 
     -- Create a taglist widget
@@ -173,7 +185,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons,
-    { bg_focus = theme.bg_focus, shape = gears.shape.powerline, shape_border_width = 0, align = "center" })
+    { bg_focus = theme.bg_focus, shape =gears.shape.powerline, shape_border_width = 0, align = "center" }, taskupdate)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s, height = theme.wibar_height })
@@ -188,8 +200,8 @@ awful.screen.connect_for_each_screen(function(s)
             s.mypromptbox,
         },
         {
-        s.mytasklist,
-        layout = wibox.layout.fixed.horizontal,
+            s.mytasklist,
+            layout = wibox.layout.fixed.horizontal
         },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
