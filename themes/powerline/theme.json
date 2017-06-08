@@ -15,17 +15,10 @@
             {
             "function":"powerline.segments.common.bat.battery",
              "args": {
-                 "full_heart": "♥",
-                 "empty_heart": "♥",
-                 "online": "⚡︎",
-                 "offline": " "
-                }
-            },
-            {
-            "function":"powerline.segments.common.net.network_load",
-            "args": {
-                   "recv_format": "⬇ {value:>8}",
-                   "sent_format": "⬆ {value:>8}"
+                 "full_heart": "  ♥",
+                 "empty_heart": "  ♥",
+                 "online": "  ⚡︎",
+                 "offline": "   "
                 }
             },
 			{
@@ -59,8 +52,7 @@
 				"args": {
 					"format": "%H:%M",
 					"istime": true
-				},
-                "before": "⌚ "
+				}
 			},
 			{
 				"function": "powerline.segments.common.mail.email_imap_alert",

@@ -34,11 +34,8 @@ show_mylauncher = false
 
 -- {{{ Layouts
 awful.layout.layouts = {
-    awful.layout.suit.tile,
     awful.layout.suit.tile.left,
-    awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.corner.nw
 }
 -- }}}
 
@@ -59,8 +56,40 @@ custom_rules = {
 
 -- {{ Widgets
 widgets = {}
-widgets.clock = wibox.widget.textclock()
-widgets.cal = lain.widget.calendar()
+widgets.clock   = wibox.widget.textclock()
+widgets.cal     = lain.widget.calendar()
+widgets.vol     = lain.widget.alsa({
+    settings = function()
+        lvl = " AUDIO:" .. volume_now.level .. "%"
+        if volume_now.status == "off" then lvl = lvl .. "(M) " end
+        widget:set_markup(lvl)
+    end
+})
+widgets.cpu     = lain.widget.cpu({
+    settings = function() 
+        widget:set_markup(' CPU' .. cpu_now.usage .. "% ") 
+    end
+})
+widgets.sysload = lain.widget.sysload({
+    settings = function()
+        widget:set_markup(' LOAD:' .. load_1 .. " ")
+    end
+})
+widgets.temp    = lain.widget.temp({
+    settings = function()
+        widget:set_markup(" CPU_TEMP:" .. coretemp_now .. "°C ")
+    end
+})
+widgets.netdown = wibox.widget.textbox()
+widgets.netup   = lain.widget.net({
+    settings = function()
+        widget:set_markup(' UP:' .. net_now.sent .. 'Kb/s ')
+        widgets.netdown:set_markup(' DOWN:' .. net_now.received .. 'Kb/s ')
+    end
+})
+
+-- livetime for the wibar showing the widgets (show with mod4+v)
+statusbox_timer_timeout = 4
 -- }}
 
 -- {{{ Custom key bindings

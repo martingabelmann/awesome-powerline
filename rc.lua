@@ -150,7 +150,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- arrow shape for tags
     tagshape = function(cr)
-        gears.shape.transform(gears.shape.rectangular_tag) : rotate_at(7, 7.5, math.pi)(cr,14,15)
+        gears.shape.transform(gears.shape.rectangular_tag) : rotate_at(6.5, 7.5, math.pi)(cr,13.5,15)
     end
     
     local common = require("awful.widget.common")
@@ -207,11 +207,52 @@ awful.screen.connect_for_each_screen(function(s)
             mykeyboardlayout,
             powerline_widget,
             wibox.widget.systray(),
-            s.mylayoutbox,
         },
+    }
+    s.mystatusbox = awful.wibar({ 
+        screen   = s,
+        visible  = false,
+        ontop    = true,
+        position = 'bottom',
+        height   = 20
+    })
+    s.mystatusbox:setup {
+        layout = wibox.layout.align.horizontal,
+        {
+            layout = wibox.layout.fixed.horizontal,
+            widgets.cpu.widget,
+            widgets.sysload.widget,
+            widgets.temp.widget,
+            widgets.netup.widget,
+            widgets.netdown,
+        },
+        {
+            layout = wibox.layout.align.horizontal,
+        },
+        {
+            layout = wibox.layout.fixed.horizontal,
+            widgets.vol.widget,
+            s.mylayoutbox
+        }
     }
 end)
 -- }}}
+
+-- timer for statusbox
+statusbox_timer = timer({
+    timeout = statusbox_timer_timeout,
+    callback = function()
+            for s in screen do
+                s.mystatusbox.visible = false
+            end
+        end
+})
+function show_statusbox()
+        s=awful.screen.focused({client=true})
+        s.mystatusbox.visible = true
+        s.mystatusbox:struts{left=0,right=0,bottom=0,top=0}
+        statusbox_timer:again()
+end
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
@@ -287,7 +328,11 @@ globalkeys = gears.table.join(
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
+    awful.key({ modkey,           }, "space",
+        function ()
+            show_statusbox()
+            awful.layout.inc( 1)
+        end,
               {description = "select next", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
@@ -319,7 +364,9 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+              {description = "show the menubar", group = "launcher"}),
+    awful.key({ modkey }, "v", function () show_statusbox() end, 
+        {description = "show status powerline", group = "widgets"})
 )
 
 -- add custom keys form config
@@ -469,7 +516,7 @@ awful.rules.rules = {
           "AlarmWindow",  -- Thunderbird's calendar.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
-      }, properties = { floating = true }},
+      }, properties = { floating = true,size_hints_honor = false }},
 }
 for k,v in pairs(custom_rules) do
     table.insert(awful.rules.rules,v)
