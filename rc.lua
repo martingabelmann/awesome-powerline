@@ -45,8 +45,15 @@ theme=beautiful.get()
 
 -- {{{ User vars and configs
 require('config')
-package.path = package.path .. ';' .. powerline_repository .. '/bindings/awesome/?.lua'
-require('powerline')
+-- start/add powerline/-widget
+powerline_widget = wibox.widget{
+    align  = 'right',
+    valign = 'center',
+    widget = wibox.widget.textbox
+}
+function powerline(mode, widget) end
+awful.spawn.with_shell('powerline-daemon -q')
+awful.spawn.with_shell('powerline wm.awesome')
 -- }}}
 
 -- {{{ Helper functions
