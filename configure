@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "creating $HOME/.config/powerline/themes/wm/"
+mkdir -p $HOME/.config/powerline/themes/wm/
+echo "symlinking $HOME/.config/powerline/themes/wm/awesome.json -> $HOME/.config/awesome/themes/powerline/theme.json"
+ln -s $HOME/.config/awesome/themes/powerline/theme.json $HOME/.config/powerline/themes/wm/awesome.json
+
+echo "creating $HOME/.config/powerline/colorschemes/wm/"
+mkdir -p $HOME/.config/powerline/colorschemes/wm/
+echo "symlinking $HOME/.config/powerline/colorschemes/wm/awesome.json -> $HOME/.config/awesome/themes/powerline/colorscheme.json"
+ln -s $HOME/.config/awesome/themes/powerline/colorscheme.json $HOME/.config/powerline/colorschemes/wm/awesome.json
+
+echo ' If not present, put the following in the "ext" section in your $HOME/.config/powerline/config.json:'
+echo -e '
+        "wm": {
+            "colorscheme": "awesome",
+            "theme": "awesome",
+            "update_interval": 2
+        }
+'
