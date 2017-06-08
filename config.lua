@@ -58,13 +58,6 @@ custom_rules = {
 widgets = {}
 widgets.clock   = wibox.widget.textclock()
 widgets.cal     = lain.widget.calendar()
-widgets.vol     = lain.widget.alsa({
-    settings = function()
-        lvl = " AUDIO:" .. volume_now.level .. "%"
-        if volume_now.status == "off" then lvl = lvl .. "(M) " end
-        widget:set_markup(lvl)
-    end
-})
 widgets.cpu     = lain.widget.cpu({
     settings = function() 
         widget:set_markup(' CPU' .. cpu_now.usage .. "% ") 
@@ -87,6 +80,51 @@ widgets.netup   = lain.widget.net({
         widgets.netdown:set_markup(' DOWN:' .. net_now.received .. 'Kb/s ')
     end
 })
+
+-- either use thinkpads hardware buttons or pulse audio
+-- function to read status of hardware (sound) buttons
+volfile = "/proc/acpi/ibm/volume"
+function readvol()
+    vol_file = io.open(volfile, "r")
+    vol_line = vol_file:read()
+    mutestatus = vol_file:read()
+    vol_file:close()
+    vol = "N/A"
+    for column in string.gmatch(vol_line, "%S+") do
+        if tonumber(column) ~= nil then
+            --vol = round(column*100/14)
+            vol = math.floor(column*100/14)
+        end
+    end
+
+    if string.find(mutestatus, "on", 1, true) then
+        volcolor = theme.bg_urgent
+    else 
+        volcolor = theme.fg_normal
+    end
+
+return " AUDIO:<span color='" .. volcolor .. "'>" .. vol .. "% </span>"
+end
+-- try to find/read hardware buttons
+if volfile and  awful.util.file_readable(volfile) then
+    widgets.vol = {}
+    widgets.vol.widget = wibox.widget.textbox()
+    widgets.vol.widget:set_markup(readvol())
+    voltimer = timer({timeout=2})
+    voltimer:connect_signal("timeout", function() widgets.vol.widget:set_markup(readvol()) end)
+    voltimer:start()
+-- read pulse audio as fallback
+else
+    widgets.vol = lain.widget.pulseaudio({
+        settings = function()
+            if volume_now.muted == "no" then 
+                volcolor = theme.fg_normal
+            else 
+                volcolor = theme.bg_urgent 
+            end
+            widget:set_markup( ' AUDIO:'.. lain.util.markup(volcolor, volume_now.left .. "% "))
+        end})
+end
 
 -- livetime for the wibar showing the widgets (show with mod4+v)
 statusbox_timer_timeout = 4
