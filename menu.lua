@@ -13,15 +13,6 @@ function askfor(question, func)
 	})
 end
 
--- write theme name to awesome_home/themeswitch
--- and restart awesome
-function write_theme(theme_dir)
-    f=io.open(awesome_home .. "/themeswitch", "w")
-    f:write(theme_dir)
-    f:close()
-    awful.util.eval(awesome.restart)
-end
-
 myawesomemenu = { 
     { "logout", function() askfor("Do you really want to logout?",  awesome.quit) end},
     
@@ -50,7 +41,8 @@ myawesomemenu = {
 }
 
 mymainmenu = freedesktop.menu.build({
-    before = {{ "Awesome", myawesomemenu, beautiful.awesome_icon }}
+    before = {{ "Awesome", myawesomemenu, beautiful.awesome_icon }},
+        skip_items = { "Avahi", "urxvt", "Qt4", "Qt" }
 })
 if show_mylauncher then
     mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
