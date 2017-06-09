@@ -46,14 +46,12 @@ theme=beautiful.get()
 -- {{{ User vars and configs
 require('config')
 -- start/add powerline/-widget
+awful.spawn.with_shell('powerline-daemon -q')
 powerline_widget = wibox.widget{
     align  = 'right',
     valign = 'center',
     widget = wibox.widget.textbox
 }
-function powerline(mode, widget) end
-awful.spawn.with_shell('powerline-daemon -q')
-awful.spawn.with_shell('powerline wm.awesome')
 -- }}}
 
 -- {{{ Helper functions
@@ -227,8 +225,8 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         {
             layout = wibox.layout.fixed.horizontal,
-            widgets.cpu.widget,
-            widgets.sysload.widget,
+            wibox.container.background(widgets.cpu.widget, theme.fg_normal, gears.shape.transform(gears.shape.rectangular_tag):rotate_at(26,10,math.pi)),
+            wibox.container.background(widgets.sysload.widget, theme.fg_normal, gears.shape.powerline),
             widgets.temp.widget,
             widgets.netup.widget,
             widgets.netdown,
@@ -238,7 +236,7 @@ awful.screen.connect_for_each_screen(function(s)
         },
         {
             layout = wibox.layout.fixed.horizontal,
-            widgets.vol.widget,
+            widgets.vol.widget, 
             s.mylayoutbox
         }
     }
@@ -246,14 +244,14 @@ end)
 -- }}}
 
 -- timer for statusbox
-statusbox_timer = timer({
+statusbox_timer = gears.timer{
     timeout = statusbox_timer_timeout,
     callback = function()
             for s in screen do
                 s.mystatusbox.visible = false
             end
         end
-})
+}
 function show_statusbox()
         s=awful.screen.focused({client=true})
         s.mystatusbox.visible = true
@@ -555,3 +553,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- this is extra in order to give the daemon time to start
+awful.spawn.with_shell('powerline wm.awesome')

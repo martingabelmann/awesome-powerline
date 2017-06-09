@@ -110,9 +110,11 @@ if volfile and  awful.util.file_readable(volfile) then
     widgets.vol = {}
     widgets.vol.widget = wibox.widget.textbox()
     widgets.vol.widget:set_markup(readvol())
-    voltimer = timer({timeout=2})
-    voltimer:connect_signal("timeout", function() widgets.vol.widget:set_markup(readvol()) end)
-    voltimer:start()
+    voltimer = gears.timer{
+        timeout=10,
+        autostart=true,
+        callback=function() widgets.vol.widget:set_markup(readvol()) end
+    }
 -- read pulse audio as fallback
 else
     widgets.vol = lain.widget.pulseaudio({
