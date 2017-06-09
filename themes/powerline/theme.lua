@@ -42,4 +42,22 @@ theme.border_marked = "#CC9393"
 
 theme.wallpaper = theme_assets.wallpaper(theme.bg_normal, theme.taglist_bg_focus, theme_taglist_fg_focus)
 
+theme.layout_icons = gears.filesystem.get_themes_dir() .. 'default/layouts/'
+theme.layout_fairh      = theme.layout_icons .. 'fairhw.png'  
+theme.layout_fairv      = theme.layout_icons .. 'fairvw.png' 
+theme.layout_magnifier  = theme.layout_icons .. 'magnifierw.png' 
+theme.layout_cornernw   = theme.layout_icons .. 'cornernww.png' 
+theme.layout_cornerne   = theme.layout_icons .. 'cornernew.png' 
+theme.layout_cornersw   = theme.layout_icons .. 'cornersww.png' 
+theme.layout_cornerse   = theme.layout_icons .. 'cornersew.png' 
+theme.layout_spiral     = theme.layout_icons .. 'spiralw.png' 
+theme.layout_dwindle    = theme.layout_icons .. 'dwindlew.png' 
+theme.layout_tile       = theme.layout_icons .. 'tilew.png' 
+theme.layout_tiletop    = theme.layout_icons .. 'tiletop w.png' 
+theme.layout_tilebottom = theme.layout_icons .. 'tilebottw.png' 
+theme.layout_tileleft   = theme.layout_icons .. 'tileleftw.png' 
+theme.layout_floating   = theme.layout_icons .. 'floatingw.png'
+theme.layout_max        = theme.layout_icons .. 'maxw.png'
+theme.layout_fullscreen = theme.layout_icons .. 'fullscrew.png'
+
 return theme
