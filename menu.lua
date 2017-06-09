@@ -14,7 +14,11 @@ function askfor(question, func)
 end
 
 myawesomemenu = { 
-    { "logout", function() askfor("Do you really want to logout?",  awesome.quit) end},
+    { "logout", function() askfor("Do you really want to logout?",  
+        function() awesome.quit() end
+        ) 
+    end
+    },
     
     { "poweroff", function() askfor(
         "Do you really want to shutdown?",  
