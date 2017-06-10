@@ -221,23 +221,38 @@ awful.screen.connect_for_each_screen(function(s)
         position = 'bottom',
         height   = 20
     })
+
+
+statuslinew = function(w)
+    return {
+        {
+            w,
+            left   = 8,
+            right  = 4,
+            widget = wibox.container.margin
+        },
+        fg = theme.tasklist_fg_focus,
+        bg = theme.tasklist_bg_focus,
+        shape = gears.shape.powerline,
+        widget = wibox.container.background
+     }
+ end
+
     s.mystatusbox:setup {
         layout = wibox.layout.align.horizontal,
         {
             layout = wibox.layout.fixed.horizontal,
-            wibox.container.background(widgets.cpu.widget, theme.fg_normal, gears.shape.transform(gears.shape.rectangular_tag):rotate_at(26,10,math.pi)),
-            wibox.container.background(widgets.sysload.widget, theme.fg_normal, gears.shape.powerline),
-            widgets.temp.widget,
-            widgets.netup.widget,
-            widgets.netdown,
+            statuslinew(widgets.cpu.widget),
+            statuslinew(widgets.sysload.widget),
+            statuslinew(widgets.temp.widget),
+            statuslinew(widgets.netup.widget),
+            statuslinew(widgets.netdown),
+            statuslinew(widgets.vol.widget), 
         },
-        {
-            layout = wibox.layout.align.horizontal,
-        },
+        nil,
         {
             layout = wibox.layout.fixed.horizontal,
-            widgets.vol.widget, 
-            s.mylayoutbox
+            s.mylayoutbox,
         }
     }
 end)
@@ -385,8 +400,10 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+    awful.key({ modkey }, "q",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
+    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+              {description = "close^2", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
