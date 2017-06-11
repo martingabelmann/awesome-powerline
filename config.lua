@@ -9,9 +9,6 @@ local lain = require("lain")
 -- path to awesome config dir
 awesome_home = awful.util.getdir("config")
 
--- path to powerline installation
-powerline_repository = awesome_home .. '/powerline/powerline/'
-
 --default applications for the menu
 terminal    = "xfce4-terminal"
 editor      = os.getenv("EDITOR") or "vim"
