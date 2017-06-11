@@ -40,7 +40,7 @@ end
 -- }}}
 
 -- load theme
-beautiful.init('/home/martin/.config/awesome/themes/powerline/theme.lua')
+beautiful.init(gears.filesystem.get_configuration_dir() .. '/themes/powerline/theme.lua')
 theme=beautiful.get()
 
 -- {{{ User vars and configs
