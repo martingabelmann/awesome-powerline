@@ -137,6 +137,8 @@ statusbox_timer_timeout = 4
 -- {{{ Custom key bindings
 custom_keys = gears.table.join(
     awful.key({ modkey }, "c", function () lain.widget.calendar.show(7) end, 
-        {description = "show calendar", group = "widgets"})
+        {description = "show calendar", group = "widgets"}),
+    awful.key({             }, "Print", function() awful.spawn.with_shell(screenshot_cmd .. screenshot_dest()) end, 
+    {description = "Take a Screenshot", group = "tag"})
 )
 -- }}}
