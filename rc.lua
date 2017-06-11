@@ -43,15 +43,11 @@ end
 beautiful.init(gears.filesystem.get_configuration_dir() .. '/themes/powerline/theme.lua')
 theme=beautiful.get()
 
+-- start powerline daemon
+awful.spawn.with_shell('powerline-daemon -q')
+
 -- {{{ User vars and configs
 require('config')
--- start/add powerline/-widget
-awful.spawn.with_shell('powerline-daemon -q')
-powerline_widget = wibox.widget{
-    align  = 'right',
-    valign = 'center',
-    widget = wibox.widget.textbox
-}
 -- }}}
 
 -- {{{ Helper functions

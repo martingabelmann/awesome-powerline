@@ -3,6 +3,7 @@ local wibox = require("wibox")
 local menubar = require("menubar")
 local gears = require("gears")
 local lain = require("lain")
+local theme = require("themes/powerline/theme")
 
 -- {{{ Variable definitions
 
@@ -54,8 +55,18 @@ custom_rules = {
 
 
 -- {{ Widgets
+-- dont change the powerline widget-name (used by the daemon)
+powerline_widget = wibox.widget{
+    align  = 'right',
+    valign = 'center',
+    widget = wibox.widget.textbox
+}
 widgets = {}
-widgets.cal     = lain.widget.calendar()
+widgets.cal     = lain.widget.calendar({
+    attach_to={powerline_widget}, 
+    notification_preset = {font=theme.font,fg=theme.fg_normal,bg=theme.bg_normal},
+    cal = "/usr/bin/env TERM=linux /usr/bin/cal --color=always"
+})
 widgets.cpu     = lain.widget.cpu({
     settings = function() 
         widget:set_markup(' CPU' .. cpu_now.usage .. "% ") 
