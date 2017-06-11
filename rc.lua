@@ -134,6 +134,53 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+-- put a widget in powerline-shaped container
+statuslinew = function(w)
+    return {
+        {
+            w,
+            left   = 8,
+            right  = 4,
+            widget = wibox.container.margin
+        },
+        fg = theme.tasklist_fg_focus,
+        bg = theme.tasklist_bg_focus,
+        shape = gears.shape.powerline,
+        widget = wibox.container.background
+     }
+ end
+    
+-- arrow shape for active tags
+tagshape = function(cr)
+    gears.shape.transform(gears.shape.rectangular_tag) : rotate_at(6.5, 7.5, math.pi)(cr,13.5,15)
+end
+
+local common = require("awful.widget.common")
+-- update function that colorizes tags left from arrow/active tag
+function tagupdate(w, buttons, label, data, objects)
+    common.list_update(w, buttons, label, data, objects)
+    active_tag = awful.screen.focused().selected_tag.index
+    tags = w:get_children()
+    for i,tag in pairs(awful.screen.focused().tags) do
+        if i <= active_tag then
+            tags[i]:set_bg(theme.taglist_bg_focus)
+            tags[i]:set_fg(theme.taglist_fg_focus)
+        else
+            tags[i]:set_bg(theme.taglist_bg_normal)
+            tags[i]:set_fg(theme.taglist_fg_normal)
+        end
+    end
+end
+
+-- update function that sets margin on tasklist arrows
+function taskupdate(w, buttons, label, data, objects)
+    common.list_update(w, buttons, label, data, objects)
+    for k,child in ipairs(w:get_all_children()) do
+        if gears.table.hasitem(gears.table.keys(child), 'set_right') then
+            child:set_right(10)
+        end
+    end
+end
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -152,37 +199,6 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 3, function () awful.layout.inc(-1) end),
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
-
-    -- arrow shape for tags
-    tagshape = function(cr)
-        gears.shape.transform(gears.shape.rectangular_tag) : rotate_at(6.5, 7.5, math.pi)(cr,13.5,15)
-    end
-    
-    local common = require("awful.widget.common")
-    -- colorize tags left from arrow/active tag
-     function tagupdate(w, buttons, label, data, objects)
-        common.list_update(w, buttons, label, data, objects)
-        active_tag = awful.screen.focused().selected_tag.index
-        tags = w:get_children()
-        for i,tag in pairs(awful.screen.focused().tags) do
-            if i <= active_tag then
-                tags[i]:set_bg(theme.taglist_bg_focus)
-                tags[i]:set_fg(theme.taglist_fg_focus)
-            else
-                tags[i]:set_bg(theme.taglist_bg_normal)
-                tags[i]:set_fg(theme.taglist_fg_normal)
-            end
-        end
-    end
-    -- set margin on tasklist arrows
-    function taskupdate(w, buttons, label, data, objects)
-        common.list_update(w, buttons, label, data, objects)
-        for k,child in ipairs(w:get_all_children()) do
-            if gears.table.hasitem(gears.table.keys(child), 'set_right') then
-                child:set_right(10)
-            end
-        end
-    end
 
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons,
@@ -222,21 +238,6 @@ awful.screen.connect_for_each_screen(function(s)
         height   = 20
     })
 
-
-statuslinew = function(w)
-    return {
-        {
-            w,
-            left   = 8,
-            right  = 4,
-            widget = wibox.container.margin
-        },
-        fg = theme.tasklist_fg_focus,
-        bg = theme.tasklist_bg_focus,
-        shape = gears.shape.powerline,
-        widget = wibox.container.background
-     }
- end
 
     s.mystatusbox:setup {
         layout = wibox.layout.align.horizontal,
