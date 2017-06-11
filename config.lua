@@ -55,7 +55,6 @@ custom_rules = {
 
 -- {{ Widgets
 widgets = {}
-widgets.clock   = wibox.widget.textclock()
 widgets.cal     = lain.widget.calendar()
 widgets.cpu     = lain.widget.cpu({
     settings = function() 
