@@ -135,19 +135,28 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 -- put a widget in powerline-shaped container
-statuslinew = function(w)
+statuslinew = function(w, w_fg, w_left_bg, w_mid_bg, w_right_bg)
     return {
         {
-            w,
-            left   = 8,
-            right  = 4,
-            widget = wibox.container.margin
-        },
-        fg = theme.tasklist_fg_focus,
-        bg = theme.tasklist_bg_focus,
-        shape = gears.shape.powerline,
-        widget = wibox.container.background
-     }
+            {
+                {
+                    w,
+                    left   = 8,
+                    right  = 4,
+                    widget = wibox.container.margin,
+                },
+                fg = w_fg,
+                bg = w_mid_bg,
+                shape = gears.shape.powerline,
+                widget = wibox.container.background
+            },
+            widget = wibox.container.background,
+            bg = w_left_bg,
+            shape = function(cr) gears.shape.transform(gears.shape.isosceles_triangle):rotate_at(10, 10, math.pi/2)(cr, 20,20) end
+       },
+       bg = w_right_bg,
+       widget = wibox.container.background,
+    }
  end
     
 -- arrow shape for active tags
@@ -243,12 +252,13 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         {
             layout = wibox.layout.fixed.horizontal,
-            statuslinew(widgets.cpu.widget),
-            statuslinew(widgets.sysload.widget),
-            statuslinew(widgets.temp.widget),
-            statuslinew(widgets.netup.widget),
-            statuslinew(widgets.netdown),
-            statuslinew(widgets.vol.widget), 
+            -- statuslinew(<widget>, <fontcolor>, <bg-left-shape>, <bg-color>, <bg-right-shape>)
+            statuslinew(widgets.cpu.widget,     theme.taglist_fg_focus,  theme.taglist_bg_focus,    theme.taglist_bg_focus,    theme.tasklist_bg_focus),
+            statuslinew(widgets.sysload.widget, theme.tasklist_fg_focus, theme.tasklist_bg_focus,   theme.tasklist_bg_focus,   theme.tasklist_bg_focus),
+            statuslinew(widgets.temp.widget,    theme.tasklist_fg_focus, theme.tasklist_bg_focus,   theme.tasklist_bg_focus,   theme.tasklist_bg_normal),
+            statuslinew(widgets.netup,          theme.fg_normal,         theme.tasklist_bg_normal,  theme.tasklist_bg_normal,  theme.tasklist_bg_normal),
+            statuslinew(widgets.netdown,        theme.fg_normal,         theme.tasklist_bg_normal,  theme.tasklist_bg_normal,  theme.bg_normal),
+            statuslinew(widgets.vol.widget,     theme.fg_normal,         theme.bg_normal,           theme.bg_normal,           theme.bg_normal),
         },
         nil,
         {
