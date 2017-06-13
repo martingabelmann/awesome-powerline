@@ -164,7 +164,7 @@ local common = require("awful.widget.common")
 -- update function that colorizes tags left from arrow/active tag
 function tagupdate(w, buttons, label, data, objects)
     common.list_update(w, buttons, label, data, objects)
-    active_tag = awful.screen.focused().selected_tag.index
+    active_tag = objects[1].screen.selected_tag.index
     tags = w:get_children()
     for i,tag in pairs(awful.screen.focused().tags) do
         if i <= active_tag then
