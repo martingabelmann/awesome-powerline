@@ -17,3 +17,5 @@ echo -e '
             "update_interval": 2
         }
 '
+
+echo 'Get a config e.g. from "cp /etc/xdg/powerline/config.json $HOME/.config/powerline/config.json"'
