@@ -166,15 +166,13 @@ function tagupdate(w, buttons, label, data, objects)
     common.list_update(w, buttons, label, data, objects)
     active_tag = awful.screen.focused().selected_tag.index
     tags = w:get_children()
-    if objects[1].screen.index == awful.screen.focused().index then
-        for i,tag in pairs(objects) do
-            if i <= active_tag then
-                tags[i]:set_bg(theme.taglist_bg_focus)
-                tags[i]:set_fg(theme.taglist_fg_focus)
-            else
-                tags[i]:set_bg(theme.taglist_bg_normal)
-                tags[i]:set_fg(theme.taglist_fg_normal)
-            end
+    for i,tag in pairs(awful.screen.focused().tags) do
+        if i <= active_tag then
+            tags[i]:set_bg(theme.taglist_bg_focus)
+            tags[i]:set_fg(theme.taglist_fg_focus)
+        else
+            tags[i]:set_bg(theme.taglist_bg_normal)
+            tags[i]:set_fg(theme.taglist_fg_normal)
         end
     end
 end
